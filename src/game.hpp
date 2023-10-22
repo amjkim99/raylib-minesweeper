@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string>
+#include <iostream>
 #include <vector>
 #include "cell.hpp"
 
@@ -11,12 +12,13 @@ const int SCREEN_HEIGHT = 800;
 
 const int ROWS = 16;
 const int COLS = 16;
-const float MINE_PERCENT = 0.1;
+const float MINE_PERCENT = 0.15;
 
 const int CELL_WIDTH = SCREEN_WIDTH / COLS;
 const int CELL_HEIGHT = SCREEN_HEIGHT / ROWS;
 
 enum GameState {
+  TITLE = 0,
   PLAYING,
   LOSE,
   WIN
@@ -36,8 +38,9 @@ class Game {
     // Initialize grid
     void init_grid();
 
-    // Place mines in grid
-    void init_mines();
+    // Fill MINE_PERCENT of the grid with mines
+    // everywhere but (startCol, startRow)
+    void init_mines(int startCol, int startRow);
 
     // Set # of neighboring mines for cells in grid
     void init_mine_counts();
@@ -45,8 +48,19 @@ class Game {
     // Return # of neighboring mines
     int count_near_mines(int col, int row);
 
+    // Draw title screen
+    void draw_title();
+  
     // Draw grid
     void draw_grid();
+
+    // Draw a Texture2D image at (col, row)
+    void draw_image(int col, int row, float imageWidth, float imageHeight, Texture2D image);
+
+    // Initialize mines with first click
+    // Set game state to playing
+    // Reveal clicked cell
+    void first_click();
 
     // Run reveal_cell() on clicked cell
     void left_click();
@@ -64,7 +78,7 @@ class Game {
     void reveal_neighbors(int col, int row);
 
     // Reveal all mines
-    void reveal_mines();
+    void reveal_and_draw_mines();
 
     // Reveal mines and print lose screen
     void lose();
@@ -73,20 +87,21 @@ class Game {
     void win();
 
     // Return game state
-    GameState check_state();
+    GameState check_state() const;
 
     // Check if col and row are valid indices
-    bool validIndex(int col, int row);
+    bool validIndex(int col, int row) const;
 
     // Print debugging info to std::cout
-    void debug();
+    void debug() const;
 
   private:
     std::vector<std::vector<Cell*>> grid;
-    Texture2D flagSprite;
     GameState state;
     int numRevealed;
     int numMines;
     double timeStart;
     double timeEnd;
+    Texture2D flagSprite;
+    Texture2D mineSprite;
 };

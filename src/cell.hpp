@@ -10,8 +10,7 @@ class Cell {
     Cell(int col, int row);
 
     // Draw one cell to screen
-    void draw(int cellWidth, int cellHeight,
-              int flagWidth, int flagHeight, Texture2D flagSprite);
+    void draw(int cellWidth, int cellHeight);
 
     // Return false if flagged or revealed, reveals cell and returns true otherwise
     bool reveal();
@@ -29,19 +28,22 @@ class Cell {
     void set_near_mines(int numNearMines);
 
     // Return if cell has a mine
-    bool is_mine();
+    bool is_mine() const;
+
+    // Return if cell has been revealed
+    bool is_revealed() const;
 
     // Return if cell is flagged
-    bool is_flagged();
+    bool is_flagged() const;
 
     // Return if cell has no neighboring mines
-    bool is_alone();
+    bool is_alone() const;
 
     // Return if cell has not been checked
-    bool was_not_checked();
+    bool was_not_checked() const;
 
     // Return number of neighboring mines
-    int num_near_mines();
+    int num_near_mines() const;
 
   private:
     int col;
