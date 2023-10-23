@@ -50,7 +50,7 @@ class Game {
 
     // Draw title screen
     void draw_title();
-  
+
     // Draw grid
     void draw_grid();
 

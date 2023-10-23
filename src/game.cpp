@@ -8,6 +8,8 @@ Game::~Game() {
       delete col;
     }
   }
+  UnloadTexture(flagSprite);
+  UnloadTexture(mineSprite);
 }
 
 void Game::init_game() {
@@ -95,8 +97,16 @@ void Game::draw_grid() {
   ClearBackground(RAYWHITE);
   for (size_t row = 0; row < ROWS; row++) {
     for (size_t col = 0; col < COLS; col++) {
-      if (grid[col][row]->is_flagged()) {
-        draw_image(col, row, flagSprite.width, flagSprite.height, flagSprite);
+      if (state == LOSE) {
+        if (grid[col][row]->is_flagged() &&
+            !grid[col][row]->is_mine()) {
+          draw_image(col, row, flagSprite.width, flagSprite.height, flagSprite);
+        }
+      }
+      else {
+        if (grid[col][row]->is_flagged()) {
+          draw_image(col, row, flagSprite.width, flagSprite.height, flagSprite);
+        }
       }
       grid[col][row]->draw(CELL_WIDTH, CELL_HEIGHT);
     }
